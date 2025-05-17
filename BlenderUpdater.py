@@ -49,7 +49,7 @@ QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
 app = QtWidgets.QApplication(sys.argv)
 
 
-appversion = "1.11.0"
+appversion = "1.12.0 (Unofficial Fork by Thane5)"
 dir_ = ""
 config = configparser.ConfigParser()
 btn = {}
@@ -217,35 +217,35 @@ class BlenderUpdater(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
         # Check internet connection, disable SSL
         # FIXME - should be changed! (preliminary fix to work in OSX)
         ssl._create_default_https_context = ssl._create_unverified_context
-        try:
-            _ = requests.get("http://www.github.com")
-        except Exception:
-            QtWidgets.QMessageBox.critical(
-                self, "Error", "Please check your internet connection"
-            )
-            logger.critical("No internet connection")
-        # Check for new version on github
-        try:
-            Appupdate = requests.get(
-                "https://api.github.com/repos/overmindstudios/BlenderUpdater/releases/latest"
-            ).text
-            logger.info("Getting update info - success")
-        except Exception:
-            logger.error("Unable to get update information from GitHub")
-
-        try:
-            UpdateData = json.loads(Appupdate)
-            applatestversion = UpdateData["tag_name"]
-            logger.info(f"Version found online: {applatestversion}")
-            if Version(applatestversion) > Version(appversion):
-                logger.info("Newer version found on Github")
-                self.btn_newVersion.clicked.connect(self.getAppUpdate)
-                self.btn_newVersion.setStyleSheet("background: rgb(73, 50, 20)")
-                self.btn_newVersion.show()
-        except Exception:
-            QtWidgets.QMessageBox.critical(
-                self, "Error", "Unable to get Github update information"
-            )
+        # try:
+        #     _ = requests.get("http://www.github.com")
+        # except Exception:
+        #     QtWidgets.QMessageBox.critical(
+        #         self, "Error", "Please check your internet connection"
+        #     )
+        #     logger.critical("No internet connection")
+        # # Check for new version on github
+        # try:
+        #     Appupdate = requests.get(
+        #         "https://api.github.com/repos/overmindstudios/BlenderUpdater/releases/latest"
+        #     ).text
+        #     logger.info("Getting update info - success")
+        # except Exception:
+        #     logger.error("Unable to get update information from GitHub")
+        #
+        # try:
+        #     UpdateData = json.loads(Appupdate)
+        #     applatestversion = UpdateData["tag_name"]
+        #     logger.info(f"Version found online: {applatestversion}")
+        #     if Version(applatestversion) > Version(appversion):
+        #         logger.info("Newer version found on Github")
+        #         self.btn_newVersion.clicked.connect(self.getAppUpdate)
+        #         self.btn_newVersion.setStyleSheet("background: rgb(73, 50, 20)")
+        #         self.btn_newVersion.show()
+        # except Exception:
+        #     QtWidgets.QMessageBox.critical(
+        #         self, "Error", "Unable to get Github update information"
+        #     )
 
     def select_path(self):
         global dir_
